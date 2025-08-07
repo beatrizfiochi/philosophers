@@ -6,7 +6,7 @@
 /*   By: bfiochi- <bfiochi-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/07 13:29:47 by bfiochi-          #+#    #+#             */
-/*   Updated: 2025/08/07 16:27:14 by bfiochi-         ###   ########.fr       */
+/*   Updated: 2025/08/07 17:29:55 by bfiochi-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,18 @@
 ////////////////////////threads (create, join and detach)
 # include <sys/time.h> //gettimeofday
 # include <limits.h> //INT_MAX
+# include <errno.h>
+
+typedef enum e_opcode
+{
+	INIT,
+	DESTROY,
+	LOCK,
+	UNLOCK,
+	CREATE,
+	JOIN,
+	DETACH,
+}	t_opcode;
 
 typedef pthread_mutex_t	t_mutex;
 
@@ -61,5 +73,10 @@ int				print_error(const char *error_message);
 int				parse_input(t_table *table, char **argv);
 
 char			*str_error_return(const char *error_message);
+
+void			*handle_malloc(size_t bytes);
+void			handle_mutex(t_mutex *mutex, t_opcode opcode);
+void			handle_thread(pthread_t *thread, void *(*foo)(void *),
+					void *data, t_opcode opcode);
 
 #endif
