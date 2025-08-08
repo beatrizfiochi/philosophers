@@ -6,7 +6,7 @@
 /*   By: bfiochi- <bfiochi-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/07 14:11:03 by bfiochi-          #+#    #+#             */
-/*   Updated: 2025/08/07 16:50:27 by bfiochi-         ###   ########.fr       */
+/*   Updated: 2025/08/08 17:19:47 by bfiochi-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,4 +34,48 @@ char	*str_error_return(const char *error_message)
 {
 	print_error(error_message);
 	return (NULL);
+}
+
+long	get_time(t_timecode time_code)
+{
+	struct timeval tv;
+	if (gettimeofday(&tv, NULL) == -1)
+	{
+		print_error("gettimeofday failed!\n");
+		return (-1);
+	}
+	if (time_code == SECOND)
+		return (tv.tv_sec + (tv.tv_usec / 1000000));
+	else if (time_code == MILLESECOND)
+		return ((tv.tv_sec * 1000) + (tv.tv_usec / 1000));
+	else if (time_code == MICROSECOND)
+		return ((tv.tv_sec * 1000000) + (tv.tv_usec));
+	else
+	{
+		print_error("Wrong input to get_time function\n");
+		return (-1);
+	}
+}
+
+void	my_usleep(long usec, t_table *table)
+{
+	long	start;
+	long	elapsed;
+	long	remmaning;
+
+	start = get_time(MICROSECOND);
+	while ((get_time(MICROSECOND) - start) < usec)
+	{
+		if (simulation_finished(table))
+			break ;
+		elapsed = (get_time(MICROSECOND) - start);
+		remmaning = usec - elapsed;
+		if (remmaning > 1000)
+			usleep(remmaning / 2);
+		else
+		{
+			while ((get_time(MICROSECOND) - start) < usec)
+				;
+		}
+	}
 }

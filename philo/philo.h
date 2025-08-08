@@ -6,7 +6,7 @@
 /*   By: bfiochi- <bfiochi-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/07 13:29:47 by bfiochi-          #+#    #+#             */
-/*   Updated: 2025/08/07 17:29:55 by bfiochi-         ###   ########.fr       */
+/*   Updated: 2025/08/08 18:00:50 by bfiochi-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,23 @@
 # include <sys/time.h> //gettimeofday
 # include <limits.h> //INT_MAX
 # include <errno.h>
+
+typedef enum e_philo_status
+{
+	EATING,
+	SLEEPING,
+	THINKING,
+	TAKE_RIGTH_FORK,
+	TAKE_LEFT_FORK,
+	DIED,
+}	t_philo_status;
+
+typedef enum e_timecode
+{
+	SECOND,
+	MILLESECOND,
+	MICROSECOND,
+}	t_timecode;
 
 typedef enum e_opcode
 {
@@ -65,18 +82,46 @@ typedef struct s_table
 	long		number_of_times_each_philosopher_must_eat;
 	long		start_of_dinner;
 	bool		end_dinner;
+	bool		threads_ready;
+	t_mutex		table_mutex;
+	t_mutex		write_mutex;
 	t_fork		*forks;
 	t_philo		*philos;
 }	t_table;
 
+//utils.c
 int				print_error(const char *error_message);
-int				parse_input(t_table *table, char **argv);
-
 char			*str_error_return(const char *error_message);
+long			get_time(t_timecode time_code);
+void			my_usleep(long usec, t_table *table);
 
+//safe_functions.c
 void			*handle_malloc(size_t bytes);
 void			handle_mutex(t_mutex *mutex, t_opcode opcode);
 void			handle_thread(pthread_t *thread, void *(*foo)(void *),
 					void *data, t_opcode opcode);
+
+//init.c
+void			init_data(t_table *table);
+
+//mutex_utils.c
+void			set_bool(t_mutex *mutex, bool *dest, bool value);
+void			set_long(t_mutex *mutex, long *dest, long value);
+bool			get_bool(t_mutex *mutex, bool *value);
+long			get_long(t_mutex *mutex, long *value);
+bool			simulation_finished(t_table *table);
+
+//synchronize.c
+void			wait_threads(t_table *table);
+
+//dinner.c
+void			*dinner_simulation(void *data);
+void			init_dinner(t_table *table);
+
+//parser.c
+int				parse_input(t_table *table, char **argv);
+
+//write.c
+void			write_philo_status(t_philo_status status, t_philo *philo);
 
 #endif
