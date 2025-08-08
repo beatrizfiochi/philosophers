@@ -1,32 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   clean.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bfiochi- <bfiochi-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/07 13:29:39 by bfiochi-          #+#    #+#             */
-/*   Updated: 2025/08/08 21:07:55 by bfiochi-         ###   ########.fr       */
+/*   Created: 2025/08/08 21:03:40 by bfiochi-          #+#    #+#             */
+/*   Updated: 2025/08/08 21:07:26 by bfiochi-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	main(int argc, char **argv)
+void	clean(t_table *table)
 {
-	t_table	table;
+	t_philo	*philo;
+	int		i;
 
-	if ((argc == 5) || (argc == 6))
+	i = -1;
+	while (++i < table->number_of_philosophers)
 	{
-		if (parse_input(&table, argv) != 0)
-			return (-1);
-		init_data(&table);
-		init_dinner(&table);
-		clean(&table);
+		philo = table->philos + i;
+		handle_mutex(&philo->mutex, DESTROY);
 	}
-	else
-	{
-		return (print_error("Invalid input!\n"));
-	}
-	return (0);
+	handle_mutex(&table->write_mutex, DESTROY);
+	handle_mutex(&table->waiter_mutex, DESTROY);
+	handle_mutex(&table->table_mutex, DESTROY);
+	free(table->forks);
+	free(table->philos);
 }

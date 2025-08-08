@@ -6,7 +6,7 @@
 /*   By: bfiochi- <bfiochi-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/07 13:29:47 by bfiochi-          #+#    #+#             */
-/*   Updated: 2025/08/08 19:03:31 by bfiochi-         ###   ########.fr       */
+/*   Updated: 2025/08/08 21:07:45 by bfiochi-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,8 @@ typedef struct s_table
 	long		start_of_dinner;
 	bool		end_dinner;
 	bool		threads_ready;
+	long		threads_running_nbr;
+	pthread_t	monitor;
 	t_mutex		table_mutex;
 	t_mutex		write_mutex;
 	t_mutex		waiter_mutex;
@@ -116,6 +118,8 @@ bool			simulation_finished(t_table *table);
 
 //synchronize.c
 void			wait_threads(t_table *table);
+bool			threads_running(t_mutex *mutex, long *threads, long philo_nbr);
+void			increase_long(t_mutex *mutex, long *value);
 
 //dinner.c
 void			*dinner_simulation(void *data);
@@ -130,5 +134,11 @@ void			write_philo_status(t_philo_status status, t_philo *philo);
 //dinner_utils.c
 void			ask_waiter(t_philo *philo, t_table *table);
 void			set_fork_is_taken(t_philo *philo, bool status);
+
+//monitor.c
+void			*monitor(void *data);
+
+//clean.c
+void			clean(t_table *table);
 
 #endif

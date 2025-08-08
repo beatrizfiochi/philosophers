@@ -6,7 +6,7 @@
 /*   By: bfiochi- <bfiochi-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/08 10:40:21 by bfiochi-          #+#    #+#             */
-/*   Updated: 2025/08/08 20:05:10 by bfiochi-         ###   ########.fr       */
+/*   Updated: 2025/08/08 21:13:01 by bfiochi-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,20 @@
 static void	think(t_philo *philo)
 {
 	write_philo_status(THINKING, philo);
+}
+
+void	*lone_philo(void *arg)
+{
+	t_philo *philo;
+
+	philo = (t_philo *)arg;
+	wait_threads(philo->table);
+	set_long(&philo->mutex, &philo->last_meal_time, get_time(MILLESECOND));
+	increase_long(&philo->table->table_mutex,
+		&philo->table->threads_running_nbr);
+	while (!simulation_finished(philo->table))
+		usleep(200);
+	return (NULL);
 }
 
 static void	eat(t_philo *philo)
@@ -43,6 +57,8 @@ void	*dinner_simulation(void *data)
 
 	philo = (t_philo *)data;
 	wait_threads(philo->table);
+	set_long(&philo->mutex, &philo->last_meal_time, get_time(MILLESECOND));
+	increase_long(&philo->table->table_mutex, &philo->table->threads_running_nbr);
 	while (!simulation_finished(philo->table))
 	{
 		if (philo->full)
@@ -63,17 +79,21 @@ void	init_dinner(t_table *table)
 	i = -1;
 	if (table->number_of_times_each_philosopher_must_eat == 0)
 		return ;
-	// TODO
-	//else if (table->number_of_philosophers == 1)
+	else if (table->number_of_philosophers == 1)
+		handle_thread(&table->philos[0].thread_id, lone_philo, &table->philos[0],
+			CREATE);
 	else
 	{
 		while (++i < table->number_of_philosophers)
 			handle_thread(&table->philos[i].thread_id, dinner_simulation,
 				&table->philos[i], CREATE);
 	}
+	handle_thread(&table->monitor, monitor, table, CREATE);
 	table->start_of_dinner = get_time(MILLESECOND);
 	set_bool(&table->table_mutex, &table->threads_ready, true);
 	i = -1;
 	while (++i < table->number_of_philosophers)
 		handle_thread(&table->philos[i].thread_id, NULL, NULL, JOIN);
+	set_bool(&table->table_mutex, &table->end_dinner, true);
+	handle_thread(&table->monitor, NULL, NULL, JOIN);
 }

@@ -6,7 +6,7 @@
 /*   By: bfiochi- <bfiochi-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/08 12:01:27 by bfiochi-          #+#    #+#             */
-/*   Updated: 2025/08/08 12:10:15 by bfiochi-         ###   ########.fr       */
+/*   Updated: 2025/08/08 20:34:11 by bfiochi-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,4 +16,23 @@ void	wait_threads(t_table *table)
 {
 	while (!get_bool(&table->table_mutex, &table->threads_ready))
 		;
+}
+
+bool	threads_running(t_mutex *mutex, long *threads, long philo_nbr)
+{
+	bool	ret;
+
+	ret = false;
+	handle_mutex(mutex, LOCK);
+	if (*threads == philo_nbr)
+		ret = true;
+	handle_mutex(mutex, UNLOCK);
+	return (ret);
+}
+
+void	increase_long(t_mutex *mutex, long *value)
+{
+	handle_mutex(mutex, LOCK);
+	(*value)++;
+	handle_mutex(mutex, UNLOCK);
 }
