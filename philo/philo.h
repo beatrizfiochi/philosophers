@@ -6,7 +6,7 @@
 /*   By: bfiochi- <bfiochi-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/07 13:29:47 by bfiochi-          #+#    #+#             */
-/*   Updated: 2025/08/08 18:00:50 by bfiochi-         ###   ########.fr       */
+/*   Updated: 2025/08/08 19:03:31 by bfiochi-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ typedef struct s_fork
 {
 	t_mutex	fork;
 	int		fork_id;
+	bool	is_taken;
 }	t_fork;
 
 typedef struct s_philo
@@ -71,6 +72,7 @@ typedef struct s_philo
 	t_fork		*right_fork;
 	pthread_t	thread_id;
 	t_table		*table;
+	t_mutex		mutex;
 }	t_philo;
 
 typedef struct s_table
@@ -85,6 +87,7 @@ typedef struct s_table
 	bool		threads_ready;
 	t_mutex		table_mutex;
 	t_mutex		write_mutex;
+	t_mutex		waiter_mutex;
 	t_fork		*forks;
 	t_philo		*philos;
 }	t_table;
@@ -123,5 +126,9 @@ int				parse_input(t_table *table, char **argv);
 
 //write.c
 void			write_philo_status(t_philo_status status, t_philo *philo);
+
+//dinner_utils.c
+void			ask_waiter(t_philo *philo, t_table *table);
+void			set_fork_is_taken(t_philo *philo, bool status);
 
 #endif

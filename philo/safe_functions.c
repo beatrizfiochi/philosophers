@@ -6,7 +6,7 @@
 /*   By: bfiochi- <bfiochi-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/07 16:50:10 by bfiochi-          #+#    #+#             */
-/*   Updated: 2025/08/07 17:28:29 by bfiochi-         ###   ########.fr       */
+/*   Updated: 2025/08/08 19:25:41 by bfiochi-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,11 @@ void	*handle_malloc(size_t bytes)
 
 	ret = malloc(bytes);
 	if (ret == NULL)
+	{
 		print_error("Error with malloc\n");
+		return (NULL);
+	}
+	return (ret);
 }
 
 static void	handle_mutex_error(int status, t_opcode opcode)
