@@ -6,7 +6,7 @@
 /*   By: bfiochi- <bfiochi-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/07 16:50:10 by bfiochi-          #+#    #+#             */
-/*   Updated: 2025/08/08 19:25:41 by bfiochi-         ###   ########.fr       */
+/*   Updated: 2025/08/10 15:27:16 by bfiochi-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,10 @@ static void	handle_mutex_error(int status, t_opcode opcode)
 {
 	if (status == 0)
 		return ;
-	if ((status == EINVAL) && (opcode ==  LOCK || opcode == UNLOCK
-		|| opcode == DESTROY))
+	if ((status == EINVAL) && (opcode == LOCK || opcode == UNLOCK
+			|| opcode == DESTROY))
 		print_error("The value specified by mutex is invalid.\n");
-	else if ((status == EINVAL) && (opcode ==  INIT))
+	else if ((status == EINVAL) && (opcode == INIT))
 		print_error("The value specified by attr is invalid.\n");
 	else if (status == EDEADLK)
 		print_error("A deadlock would occur if the thread blocked\
@@ -68,7 +68,7 @@ static void	handle_thread_error(int status, t_opcode opcode)
 		print_error("No resources to create another thread.\n");
 	else if (status == EPERM)
 		print_error("The caller does not have appropriate permission.\n");
-	else if ((status == EINVAL) && (opcode ==  CREATE))
+	else if ((status == EINVAL) && (opcode == CREATE))
 		print_error("The value specified by attr is invalid.\n");
 	else if ((status == EINVAL) && (opcode == JOIN || opcode == DETACH))
 		print_error("The value specified by thread is not joinable.\n");

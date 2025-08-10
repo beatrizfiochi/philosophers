@@ -6,7 +6,7 @@
 /*   By: bfiochi- <bfiochi-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/07 16:42:51 by bfiochi-          #+#    #+#             */
-/*   Updated: 2025/08/08 20:25:37 by bfiochi-         ###   ########.fr       */
+/*   Updated: 2025/08/10 15:25:06 by bfiochi-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,12 +50,12 @@ void	init_data(t_table *table)
 	table->threads_ready = false;
 	table->threads_running_nbr = 0;
 	table->philos = handle_malloc(sizeof(t_philo)
-		* table->number_of_philosophers);
+			* table->number_of_philosophers);
 	handle_mutex(&table->table_mutex, INIT);
 	handle_mutex(&table->write_mutex, INIT);
 	handle_mutex(&table->waiter_mutex, INIT);
 	table->forks = handle_malloc(sizeof(t_fork)
-		* table->number_of_philosophers);
+			* table->number_of_philosophers);
 	while (i < table->number_of_philosophers)
 	{
 		handle_mutex(&table->forks[i].fork, INIT);

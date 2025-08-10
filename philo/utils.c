@@ -6,7 +6,7 @@
 /*   By: bfiochi- <bfiochi-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/07 14:11:03 by bfiochi-          #+#    #+#             */
-/*   Updated: 2025/08/08 17:19:47 by bfiochi-         ###   ########.fr       */
+/*   Updated: 2025/08/10 15:27:56 by bfiochi-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,8 @@ char	*str_error_return(const char *error_message)
 
 long	get_time(t_timecode time_code)
 {
-	struct timeval tv;
+	struct timeval	tv;
+
 	if (gettimeofday(&tv, NULL) == -1)
 	{
 		print_error("gettimeofday failed!\n");

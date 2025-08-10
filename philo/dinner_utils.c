@@ -6,7 +6,7 @@
 /*   By: bfiochi- <bfiochi-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/08 18:06:09 by bfiochi-          #+#    #+#             */
-/*   Updated: 2025/08/08 20:10:22 by bfiochi-         ###   ########.fr       */
+/*   Updated: 2025/08/10 15:22:59 by bfiochi-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,16 @@ void	set_fork_is_taken(t_philo *philo, bool status)
 {
 	philo->left_fork->is_taken = status;
 	philo->right_fork->is_taken = status;
+}
+
+static void	acess_forks(t_philo *philo)
+{
+	set_fork_is_taken(philo, true);
+	handle_mutex(&philo->table->waiter_mutex, UNLOCK);
+	handle_mutex(&philo->left_fork->fork, LOCK);
+	write_philo_status(TAKE_LEFT_FORK, philo);
+	handle_mutex(&philo->right_fork->fork, LOCK);
+	write_philo_status(TAKE_RIGTH_FORK, philo);
 }
 
 static bool	neighbor_has_priority(t_philo *philo, t_philo *philo_neighbor)
@@ -38,7 +48,8 @@ void	ask_waiter(t_philo *philo, t_table *table)
 	bool	right_available;
 
 	left_neighbor = &table->philos[((philo->id
-		+ table->number_of_philosophers) - 1) % table->number_of_philosophers];
+				+ table->number_of_philosophers) - 1)
+		% table->number_of_philosophers];
 	right_neighbor = &table->philos[(philo->id + 1)
 		% table->number_of_philosophers];
 	while (1)
@@ -48,14 +59,9 @@ void	ask_waiter(t_philo *philo, t_table *table)
 		right_available = !philo->right_fork->is_taken;
 		if ((left_available && right_available)
 			&& (!neighbor_has_priority(philo, left_neighbor)
-			&& !neighbor_has_priority(philo, right_neighbor)))
+				&& !neighbor_has_priority(philo, right_neighbor)))
 		{
-			set_fork_is_taken(philo, true);
-			handle_mutex(&table->waiter_mutex, UNLOCK);
-			handle_mutex(&philo->left_fork->fork, LOCK);
-			write_philo_status(TAKE_LEFT_FORK, philo);
-			handle_mutex(&philo->right_fork->fork, LOCK);
-			write_philo_status(TAKE_RIGTH_FORK, philo);
+			acess_forks(philo);
 			return ;
 		}
 		handle_mutex(&table->waiter_mutex, UNLOCK);

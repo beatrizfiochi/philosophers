@@ -6,7 +6,7 @@
 /*   By: bfiochi- <bfiochi-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/07 13:29:47 by bfiochi-          #+#    #+#             */
-/*   Updated: 2025/08/08 21:07:45 by bfiochi-         ###   ########.fr       */
+/*   Updated: 2025/08/10 13:25:31 by bfiochi-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,10 +120,12 @@ bool			simulation_finished(t_table *table);
 void			wait_threads(t_table *table);
 bool			threads_running(t_mutex *mutex, long *threads, long philo_nbr);
 void			increase_long(t_mutex *mutex, long *value);
+void			de_synchronize(t_philo *philo);
 
 //dinner.c
 void			*dinner_simulation(void *data);
 void			init_dinner(t_table *table);
+void			think(t_philo *philo, bool pre_simulation);
 
 //parser.c
 int				parse_input(t_table *table, char **argv);
