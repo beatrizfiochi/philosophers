@@ -6,7 +6,7 @@
 /*   By: bfiochi- <bfiochi-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/08 18:06:09 by bfiochi-          #+#    #+#             */
-/*   Updated: 2025/08/10 17:01:10 by bfiochi-         ###   ########.fr       */
+/*   Updated: 2025/08/10 17:42:24 by bfiochi-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void	ask_waiter(t_philo *philo, t_table *table)
 		% table->number_of_philosophers];
 	right_ngb = &table->philos[(philo->id + 1)
 		% table->number_of_philosophers];
-	while (1)
+	while (!simulation_finished(table))
 	{
 		handle_mutex(&table->waiter_mutex, LOCK);
 		left_aval = !philo->left_fork->is_taken;

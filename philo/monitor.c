@@ -6,7 +6,7 @@
 /*   By: bfiochi- <bfiochi-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/08 20:18:54 by bfiochi-          #+#    #+#             */
-/*   Updated: 2025/08/10 15:26:25 by bfiochi-         ###   ########.fr       */
+/*   Updated: 2025/08/10 18:05:47 by bfiochi-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,9 +44,13 @@ void	*monitor(void *data)
 			if (philo_died(table->philos + i)
 				&& !simulation_finished(table))
 			{
-				set_bool(&table->table_mutex,
-					&table->end_dinner, true);
-				write_philo_status(DIED, table->philos + i);
+				handle_mutex(&table->write_mutex, LOCK);
+				handle_mutex(&table->table_mutex, LOCK);
+				printf("%-6ld %d died\n", (get_time(MILLESECOND)
+					- table->start_of_dinner), table->philos[i].id);
+				table->end_dinner = true;
+				handle_mutex(&table->table_mutex, UNLOCK);
+				handle_mutex(&table->write_mutex, UNLOCK);
 			}
 		}
 	}

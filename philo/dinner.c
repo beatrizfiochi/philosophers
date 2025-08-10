@@ -6,7 +6,7 @@
 /*   By: bfiochi- <bfiochi-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/08 10:40:21 by bfiochi-          #+#    #+#             */
-/*   Updated: 2025/08/10 16:31:58 by bfiochi-         ###   ########.fr       */
+/*   Updated: 2025/08/10 17:48:06 by bfiochi-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ void	think(t_philo *philo, bool pre_simulation)
 	long	t_sleep;
 	long	t_think;
 
+	if (simulation_finished(philo->table))
+		return ;
 	if (!pre_simulation)
 		write_philo_status(THINKING, philo);
 	if (philo->table->number_of_philosophers % 2 == 0)
@@ -46,6 +48,8 @@ void	*lone_philo(void *arg)
 
 static void	eat(t_philo *philo)
 {
+	if (simulation_finished(philo->table))
+		return ;
 	set_long(&philo->mutex, &philo->last_meal_time, get_time(MILLESECOND));
 	handle_mutex(&philo->mutex, LOCK);
 	philo->meals++;
@@ -108,6 +112,6 @@ void	init_dinner(t_table *table)
 	i = -1;
 	while (++i < table->number_of_philosophers)
 		handle_thread(&table->philos[i].thread_id, NULL, NULL, JOIN);
-	set_bool(&table->table_mutex, &table->end_dinner, true);
+	set_bool(&table->table_mutex, &table->end_dinner, false);
 	handle_thread(&table->monitor, NULL, NULL, JOIN);
 }

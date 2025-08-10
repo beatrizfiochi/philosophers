@@ -6,7 +6,7 @@
 /*   By: bfiochi- <bfiochi-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/08 17:32:05 by bfiochi-          #+#    #+#             */
-/*   Updated: 2025/08/10 13:04:15 by bfiochi-         ###   ########.fr       */
+/*   Updated: 2025/08/10 17:53:26 by bfiochi-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ void	write_philo_status(t_philo_status status, t_philo *philo)
 	long	elapsed;
 
 	if (philo->full)
+		return ;
+	if (simulation_finished(philo->table))
 		return ;
 	elapsed = (get_time(MILLESECOND) - philo->table->start_of_dinner);
 	handle_mutex(&philo->table->write_mutex, LOCK);
@@ -29,7 +31,5 @@ void	write_philo_status(t_philo_status status, t_philo *philo)
 		printf("%-6ld %d is sleeping\n", elapsed, philo->id);
 	else if (status == THINKING && !simulation_finished(philo->table))
 		printf("%-6ld %d is thinking\n", elapsed, philo->id);
-	else if (status == DIED)
-		printf("%-6ld %d died\n", elapsed, philo->id);
 	handle_mutex(&philo->table->write_mutex, UNLOCK);
 }
