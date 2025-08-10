@@ -6,7 +6,7 @@
 /*   By: bfiochi- <bfiochi-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/08 10:40:21 by bfiochi-          #+#    #+#             */
-/*   Updated: 2025/08/10 17:48:06 by bfiochi-         ###   ########.fr       */
+/*   Updated: 2025/08/10 18:18:42 by bfiochi-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,6 @@ void	init_dinner(t_table *table)
 	i = -1;
 	while (++i < table->number_of_philosophers)
 		handle_thread(&table->philos[i].thread_id, NULL, NULL, JOIN);
-	set_bool(&table->table_mutex, &table->end_dinner, false);
+	set_bool(&table->table_mutex, &table->end_dinner, true);
 	handle_thread(&table->monitor, NULL, NULL, JOIN);
 }
