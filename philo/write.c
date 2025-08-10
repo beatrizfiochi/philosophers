@@ -6,7 +6,7 @@
 /*   By: bfiochi- <bfiochi-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/08 17:32:05 by bfiochi-          #+#    #+#             */
-/*   Updated: 2025/08/10 17:53:26 by bfiochi-         ###   ########.fr       */
+/*   Updated: 2025/08/10 19:02:28 by bfiochi-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@ void	write_philo_status(t_philo_status status, t_philo *philo)
 		return ;
 	if (simulation_finished(philo->table))
 		return ;
-	elapsed = (get_time(MILLESECOND) - philo->table->start_of_dinner);
 	handle_mutex(&philo->table->write_mutex, LOCK);
+	elapsed = (get_time(MILLESECOND) - philo->table->start_of_dinner);
 	if ((status == TAKE_RIGTH_FORK || status == TAKE_LEFT_FORK)
 		&& (!simulation_finished(philo->table)))
 		printf("%-6ld %d has taken a fork\n", elapsed, philo->id);
