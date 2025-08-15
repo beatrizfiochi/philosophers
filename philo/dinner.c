@@ -6,7 +6,7 @@
 /*   By: bfiochi- <bfiochi-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/08 10:40:21 by bfiochi-          #+#    #+#             */
-/*   Updated: 2025/08/15 15:36:48 by bfiochi-         ###   ########.fr       */
+/*   Updated: 2025/08/15 17:53:51 by bfiochi-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,17 +50,15 @@ static void	eat(t_philo *philo)
 {
 	if (simulation_finish(philo->table))
 		return ;
+	acess_forks(philo);
 	set_long(&philo->mutex, &philo->last_meal_time, get_time(MILLESECOND));
 	handle_mutex(&philo->mutex, LOCK);
 	philo->meals++;
 	write_philo_status(EATING, philo);
 	handle_mutex(&philo->mutex, UNLOCK);
 	my_usleep(philo->table->time_to_eat, philo->table);
-	handle_mutex(&philo->table->waiter_mutex, LOCK);
 	handle_mutex(&philo->left_fork->fork, UNLOCK);
 	handle_mutex(&philo->right_fork->fork, UNLOCK);
-	set_fork_is_taken(philo, false);
-	handle_mutex(&philo->table->waiter_mutex, UNLOCK);
 	if (philo->table->number_of_times_each_philosopher_must_eat > 0
 		&& philo->meals
 		== philo->table->number_of_times_each_philosopher_must_eat)
@@ -81,7 +79,6 @@ void	*dinner_simulation(void *data)
 	{
 		if (philo->full)
 			break ;
-		ask_waiter(philo, philo->table);
 		eat(philo);
 		write_philo_status(SLEEPING, philo);
 		my_usleep(philo->table->time_to_sleep, philo->table);

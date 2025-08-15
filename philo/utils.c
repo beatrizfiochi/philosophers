@@ -6,7 +6,7 @@
 /*   By: bfiochi- <bfiochi-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/07 14:11:03 by bfiochi-          #+#    #+#             */
-/*   Updated: 2025/08/15 15:36:48 by bfiochi-         ###   ########.fr       */
+/*   Updated: 2025/08/15 17:56:41 by bfiochi-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ void	my_usleep(long usec, t_table *table)
 		else
 		{
 			while ((get_time(MICROSECOND) - start) < usec)
-				;
+				usleep(50);
 		}
 	}
 }

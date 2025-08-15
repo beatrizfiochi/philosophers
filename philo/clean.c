@@ -6,7 +6,7 @@
 /*   By: bfiochi- <bfiochi-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/08 21:03:40 by bfiochi-          #+#    #+#             */
-/*   Updated: 2025/08/08 21:07:26 by bfiochi-         ###   ########.fr       */
+/*   Updated: 2025/08/15 17:37:19 by bfiochi-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ void	clean(t_table *table)
 		handle_mutex(&philo->mutex, DESTROY);
 	}
 	handle_mutex(&table->write_mutex, DESTROY);
-	handle_mutex(&table->waiter_mutex, DESTROY);
 	handle_mutex(&table->table_mutex, DESTROY);
 	free(table->forks);
 	free(table->philos);

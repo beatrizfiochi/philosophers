@@ -6,7 +6,7 @@
 /*   By: bfiochi- <bfiochi-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/07 13:29:47 by bfiochi-          #+#    #+#             */
-/*   Updated: 2025/08/15 15:36:48 by bfiochi-         ###   ########.fr       */
+/*   Updated: 2025/08/15 17:51:52 by bfiochi-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,6 @@ typedef struct s_table
 	pthread_t	monitor;
 	t_mutex		table_mutex;
 	t_mutex		write_mutex;
-	t_mutex		waiter_mutex;
 	t_fork		*forks;
 	t_philo		*philos;
 }	t_table;
@@ -134,8 +133,7 @@ int				parse_input(t_table *table, char **argv);
 void			write_philo_status(t_philo_status status, t_philo *philo);
 
 //dinner_utils.c
-void			ask_waiter(t_philo *philo, t_table *table);
-void			set_fork_is_taken(t_philo *philo, bool status);
+void			acess_forks(t_philo *philo);
 
 //monitor.c
 void			*monitor(void *data);

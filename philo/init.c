@@ -6,7 +6,7 @@
 /*   By: bfiochi- <bfiochi-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/07 16:42:51 by bfiochi-          #+#    #+#             */
-/*   Updated: 2025/08/10 15:25:06 by bfiochi-         ###   ########.fr       */
+/*   Updated: 2025/08/15 17:45:55 by bfiochi-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,13 @@ static void	assign_forks(t_table *table, t_philo *philo, t_fork *forks,
 	int	philo_nbr;
 
 	philo_nbr = table->number_of_philosophers;
-	philo->right_fork = &forks[position];
-	philo->left_fork = &forks[((position + 1) % philo_nbr)];
+	philo->right_fork = &forks[((position + 1) % philo_nbr)];
+	philo->left_fork = &forks[position];
+	if (philo->id % 2 == 0)
+	{
+		philo->right_fork = &forks[position];
+		philo->left_fork = &forks[((position + 1) % philo_nbr)];
+	}
 }
 
 static void	init_philo(t_table *table)
@@ -53,7 +58,6 @@ void	init_data(t_table *table)
 			* table->number_of_philosophers);
 	handle_mutex(&table->table_mutex, INIT);
 	handle_mutex(&table->write_mutex, INIT);
-	handle_mutex(&table->waiter_mutex, INIT);
 	table->forks = handle_malloc(sizeof(t_fork)
 			* table->number_of_philosophers);
 	while (i < table->number_of_philosophers)
