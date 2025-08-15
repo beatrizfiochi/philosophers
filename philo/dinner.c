@@ -6,7 +6,7 @@
 /*   By: bfiochi- <bfiochi-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/08 10:40:21 by bfiochi-          #+#    #+#             */
-/*   Updated: 2025/08/10 18:18:42 by bfiochi-         ###   ########.fr       */
+/*   Updated: 2025/08/15 15:36:48 by bfiochi-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	think(t_philo *philo, bool pre_simulation)
 	long	t_sleep;
 	long	t_think;
 
-	if (simulation_finished(philo->table))
+	if (simulation_finish(philo->table))
 		return ;
 	if (!pre_simulation)
 		write_philo_status(THINKING, philo);
@@ -41,14 +41,14 @@ void	*lone_philo(void *arg)
 	set_long(&philo->mutex, &philo->last_meal_time, get_time(MILLESECOND));
 	increase_long(&philo->table->table_mutex,
 		&philo->table->threads_running_nbr);
-	while (!simulation_finished(philo->table))
+	while (!simulation_finish(philo->table))
 		usleep(200);
 	return (NULL);
 }
 
 static void	eat(t_philo *philo)
 {
-	if (simulation_finished(philo->table))
+	if (simulation_finish(philo->table))
 		return ;
 	set_long(&philo->mutex, &philo->last_meal_time, get_time(MILLESECOND));
 	handle_mutex(&philo->mutex, LOCK);
@@ -77,7 +77,7 @@ void	*dinner_simulation(void *data)
 	increase_long(&philo->table->table_mutex,
 		&philo->table->threads_running_nbr);
 	de_synchronize(philo);
-	while (!simulation_finished(philo->table))
+	while (!simulation_finish(philo->table))
 	{
 		if (philo->full)
 			break ;

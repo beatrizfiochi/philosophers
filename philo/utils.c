@@ -6,7 +6,7 @@
 /*   By: bfiochi- <bfiochi-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/07 14:11:03 by bfiochi-          #+#    #+#             */
-/*   Updated: 2025/08/10 15:27:56 by bfiochi-         ###   ########.fr       */
+/*   Updated: 2025/08/15 15:36:48 by bfiochi-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ void	my_usleep(long usec, t_table *table)
 	start = get_time(MICROSECOND);
 	while ((get_time(MICROSECOND) - start) < usec)
 	{
-		if (simulation_finished(table))
+		if (simulation_finish(table))
 			break ;
 		elapsed = (get_time(MICROSECOND) - start);
 		remmaning = usec - elapsed;

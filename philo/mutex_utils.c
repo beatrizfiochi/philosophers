@@ -6,7 +6,7 @@
 /*   By: bfiochi- <bfiochi-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/08 11:47:34 by bfiochi-          #+#    #+#             */
-/*   Updated: 2025/08/08 11:56:52 by bfiochi-         ###   ########.fr       */
+/*   Updated: 2025/08/15 15:36:48 by bfiochi-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ long	get_long(t_mutex *mutex, long *value)
 	return (ret);
 }
 
-bool	simulation_finished(t_table *table)
+bool	simulation_finish(t_table *table)
 {
 	return (get_bool(&table->table_mutex, &table->end_dinner));
 }

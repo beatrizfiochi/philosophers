@@ -6,7 +6,7 @@
 /*   By: bfiochi- <bfiochi-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/07 13:29:47 by bfiochi-          #+#    #+#             */
-/*   Updated: 2025/08/10 13:25:31 by bfiochi-         ###   ########.fr       */
+/*   Updated: 2025/08/15 15:36:48 by bfiochi-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,7 @@ void			set_bool(t_mutex *mutex, bool *dest, bool value);
 void			set_long(t_mutex *mutex, long *dest, long value);
 bool			get_bool(t_mutex *mutex, bool *value);
 long			get_long(t_mutex *mutex, long *value);
-bool			simulation_finished(t_table *table);
+bool			simulation_finish(t_table *table);
 
 //synchronize.c
 void			wait_threads(t_table *table);

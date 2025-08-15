@@ -6,7 +6,7 @@
 /*   By: bfiochi- <bfiochi-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/08 20:18:54 by bfiochi-          #+#    #+#             */
-/*   Updated: 2025/08/10 18:05:47 by bfiochi-         ###   ########.fr       */
+/*   Updated: 2025/08/15 15:36:48 by bfiochi-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,18 +36,17 @@ void	*monitor(void *data)
 	while (!threads_running(&table->table_mutex, &table->threads_running_nbr,
 			table->number_of_philosophers))
 			;
-	while (!simulation_finished(table))
+	while (!simulation_finish(table))
 	{
 		i = -1;
 		while (++i < table->number_of_philosophers)
 		{
-			if (philo_died(table->philos + i)
-				&& !simulation_finished(table))
+			if (philo_died(table->philos + i) && !simulation_finish(table))
 			{
 				handle_mutex(&table->write_mutex, LOCK);
 				handle_mutex(&table->table_mutex, LOCK);
 				printf("%-6ld %d died\n", (get_time(MILLESECOND)
-					- table->start_of_dinner), table->philos[i].id);
+						- table->start_of_dinner), table->philos[i].id);
 				table->end_dinner = true;
 				handle_mutex(&table->table_mutex, UNLOCK);
 				handle_mutex(&table->write_mutex, UNLOCK);
