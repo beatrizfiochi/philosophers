@@ -6,7 +6,7 @@
 /*   By: bfiochi- <bfiochi-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/08 12:01:27 by bfiochi-          #+#    #+#             */
-/*   Updated: 2025/08/15 17:56:06 by bfiochi-         ###   ########.fr       */
+/*   Updated: 2025/08/17 15:10:08 by bfiochi-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	wait_threads(t_table *table)
 {
 	while (!get_bool(&table->table_mutex, &table->threads_ready))
-		usleep(50);
+		my_usleep(500, table);
 }
 
 bool	threads_running(t_mutex *mutex, long *threads, long philo_nbr)
@@ -42,11 +42,8 @@ void	de_synchronize(t_philo *philo)
 	if (philo->table->number_of_philosophers % 2 == 0)
 	{
 		if (philo->id % 2 == 0)
-			my_usleep(30000, philo->table);
+			my_usleep(500, philo->table);
 		else
-		{
-			if (philo->id % 2 == 0)
-				think(philo, true);
-		}
+			think(philo, true);
 	}
 }

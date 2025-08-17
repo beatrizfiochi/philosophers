@@ -6,7 +6,7 @@
 /*   By: bfiochi- <bfiochi-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/07 14:11:03 by bfiochi-          #+#    #+#             */
-/*   Updated: 2025/08/15 17:56:41 by bfiochi-         ###   ########.fr       */
+/*   Updated: 2025/08/17 16:19:34 by bfiochi-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,11 +36,11 @@ char	*str_error_return(const char *error_message)
 	return (NULL);
 }
 
-long	get_time(t_timecode time_code)
+long long	get_time(t_timecode time_code)
 {
 	struct timeval	tv;
 
-	if (gettimeofday(&tv, NULL) == -1)
+	if (gettimeofday(&tv, NULL))
 	{
 		print_error("gettimeofday failed!\n");
 		return (-1);
@@ -60,23 +60,42 @@ long	get_time(t_timecode time_code)
 
 void	my_usleep(long usec, t_table *table)
 {
-	long	start;
-	long	elapsed;
-	long	remmaning;
+	long long	start;
+	long long	remmaning;
 
 	start = get_time(MICROSECOND);
-	while ((get_time(MICROSECOND) - start) < usec)
+	remmaning = usec;
+	while (remmaning > 0)
 	{
 		if (simulation_finish(table))
 			break ;
-		elapsed = (get_time(MICROSECOND) - start);
-		remmaning = usec - elapsed;
-		if (remmaning > 1000)
-			usleep(remmaning / 2);
+		if (remmaning > 500)
+			usleep(500);
 		else
-		{
-			while ((get_time(MICROSECOND) - start) < usec)
-				usleep(50);
-		}
+			usleep(remmaning);
+		remmaning = usec - (get_time(MICROSECOND) - start);
 	}
 }
+
+// void	my_usleep(long usec, t_table *table)
+// {
+// 	long	start;
+// 	long	elapsed;
+// 	long	remmaning;
+
+// 	start = get_time(MICROSECOND);
+// 	while ((get_time(MICROSECOND) - start) < usec)
+// 	{
+// 		if (simulation_finish(table))
+// 			break ;
+// 		elapsed = (get_time(MICROSECOND) - start);
+// 		remmaning = usec - elapsed;
+// 		if (remmaning > 1000)
+// 			usleep(remmaning / 2);
+// 		else
+// 		{
+// 			while ((get_time(MICROSECOND) - start) < usec)
+// 				usleep(50);
+// 		}
+// 	}
+// }

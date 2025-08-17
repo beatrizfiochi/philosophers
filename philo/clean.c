@@ -6,7 +6,7 @@
 /*   By: bfiochi- <bfiochi-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/08 21:03:40 by bfiochi-          #+#    #+#             */
-/*   Updated: 2025/08/15 17:37:19 by bfiochi-         ###   ########.fr       */
+/*   Updated: 2025/08/17 14:29:11 by bfiochi-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	clean(t_table *table)
 	while (++i < table->number_of_philosophers)
 	{
 		philo = table->philos + i;
-		handle_mutex(&philo->mutex, DESTROY);
+		handle_mutex(&philo->philo_mutex, DESTROY);
 	}
 	handle_mutex(&table->write_mutex, DESTROY);
 	handle_mutex(&table->table_mutex, DESTROY);

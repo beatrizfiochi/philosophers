@@ -6,7 +6,7 @@
 /*   By: bfiochi- <bfiochi-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/08 11:47:34 by bfiochi-          #+#    #+#             */
-/*   Updated: 2025/08/15 15:36:48 by bfiochi-         ###   ########.fr       */
+/*   Updated: 2025/08/17 16:02:23 by bfiochi-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,16 +29,16 @@ bool	get_bool(t_mutex *mutex, bool *value)
 	return (ret);
 }
 
-void	set_long(t_mutex *mutex, long *dest, long value)
+void	set_long(t_mutex *mutex, long long *dest, long long value)
 {
 	handle_mutex(mutex, LOCK);
 	*dest = value;
 	handle_mutex(mutex, UNLOCK);
 }
 
-long	get_long(t_mutex *mutex, long *value)
+long long	get_long(t_mutex *mutex, long long *value)
 {
-	long	ret;
+	long long	ret;
 
 	handle_mutex(mutex, LOCK);
 	ret = *value;

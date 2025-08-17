@@ -6,24 +6,23 @@
 /*   By: bfiochi- <bfiochi-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/07 16:42:51 by bfiochi-          #+#    #+#             */
-/*   Updated: 2025/08/15 17:45:55 by bfiochi-         ###   ########.fr       */
+/*   Updated: 2025/08/17 14:15:43 by bfiochi-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-static void	assign_forks(t_table *table, t_philo *philo, t_fork *forks,
-				int position)
+static void	assign_forks(t_philo *philo, t_fork *forks, int philo_position)
 {
 	int	philo_nbr;
 
-	philo_nbr = table->number_of_philosophers;
-	philo->right_fork = &forks[((position + 1) % philo_nbr)];
-	philo->left_fork = &forks[position];
+	philo_nbr = philo->table->number_of_philosophers;
+	philo->first_fork = &forks[((philo_position + 1) % philo_nbr)];
+	philo->second_fork = &forks[philo_position];
 	if (philo->id % 2 == 0)
 	{
-		philo->right_fork = &forks[position];
-		philo->left_fork = &forks[((position + 1) % philo_nbr)];
+		philo->first_fork = &forks[philo_position];
+		philo->second_fork = &forks[((philo_position + 1) % philo_nbr)];
 	}
 }
 
@@ -40,8 +39,8 @@ static void	init_philo(t_table *table)
 		philo->full = false;
 		philo->meals = 0;
 		philo->table = table;
-		handle_mutex(&table->philos->mutex, INIT);
-		assign_forks(table, philo, table->forks, i);
+		handle_mutex(&table->philos->philo_mutex, INIT);
+		assign_forks(philo, table->forks, i);
 		i++;
 	}
 }

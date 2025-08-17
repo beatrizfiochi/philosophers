@@ -6,7 +6,7 @@
 /*   By: bfiochi- <bfiochi-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/08 10:40:21 by bfiochi-          #+#    #+#             */
-/*   Updated: 2025/08/15 17:53:51 by bfiochi-         ###   ########.fr       */
+/*   Updated: 2025/08/17 15:57:15 by bfiochi-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,46 +32,47 @@ void	think(t_philo *philo, bool pre_simulation)
 	my_usleep(t_think * 0.42, philo->table);
 }
 
-void	*lone_philo(void *arg)
+static void	*lone_philo(void *arg)
 {
 	t_philo	*philo;
 
 	philo = (t_philo *)arg;
 	wait_threads(philo->table);
-	set_long(&philo->mutex, &philo->last_meal_time, get_time(MILLESECOND));
+	set_long(&philo->philo_mutex, &philo->last_meal_time,
+		get_time(MILLESECOND));
 	increase_long(&philo->table->table_mutex,
 		&philo->table->threads_running_nbr);
 	while (!simulation_finish(philo->table))
-		usleep(200);
+		my_usleep(200, philo->table);
 	return (NULL);
 }
 
 static void	eat(t_philo *philo)
 {
-	if (simulation_finish(philo->table))
-		return ;
-	acess_forks(philo);
-	set_long(&philo->mutex, &philo->last_meal_time, get_time(MILLESECOND));
-	handle_mutex(&philo->mutex, LOCK);
+	handle_mutex(&philo->first_fork->fork, LOCK);
+	write_philo_status(TAKE_FIRST_FORK, philo);
+	handle_mutex(&philo->second_fork->fork, LOCK);
+	write_philo_status(TAKE_SECOND_FORK, philo);
+	set_long(&philo->philo_mutex, &philo->last_meal_time,
+		get_time(MILLESECOND));
 	philo->meals++;
 	write_philo_status(EATING, philo);
-	handle_mutex(&philo->mutex, UNLOCK);
 	my_usleep(philo->table->time_to_eat, philo->table);
-	handle_mutex(&philo->left_fork->fork, UNLOCK);
-	handle_mutex(&philo->right_fork->fork, UNLOCK);
 	if (philo->table->number_of_times_each_philosopher_must_eat > 0
 		&& philo->meals
 		== philo->table->number_of_times_each_philosopher_must_eat)
-		set_bool(&philo->mutex, &philo->full, true);
+		set_bool(&philo->philo_mutex, &philo->full, true);
+	handle_mutex(&philo->first_fork->fork, UNLOCK);
+	handle_mutex(&philo->second_fork->fork, UNLOCK);
 }
 
-void	*dinner_simulation(void *data)
+static void	*dinner_simulation(void *data)
 {
 	t_philo	*philo;
 
 	philo = (t_philo *)data;
 	wait_threads(philo->table);
-	set_long(&philo->mutex, &philo->last_meal_time, get_time(MILLESECOND));
+	set_long(&philo->philo_mutex, &philo->last_meal_time, get_time(MILLESECOND));
 	increase_long(&philo->table->table_mutex,
 		&philo->table->threads_running_nbr);
 	de_synchronize(philo);
@@ -103,7 +104,7 @@ void	init_dinner(t_table *table)
 			handle_thread(&table->philos[i].thread_id, dinner_simulation,
 				&table->philos[i], CREATE);
 	}
-	handle_thread(&table->monitor, monitor, table, CREATE);
+	handle_thread(&table->monitor, monitor_dinner, table, CREATE);
 	table->start_of_dinner = get_time(MILLESECOND);
 	set_bool(&table->table_mutex, &table->threads_ready, true);
 	i = -1;

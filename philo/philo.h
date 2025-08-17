@@ -6,7 +6,7 @@
 /*   By: bfiochi- <bfiochi-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/07 13:29:47 by bfiochi-          #+#    #+#             */
-/*   Updated: 2025/08/15 17:51:52 by bfiochi-         ###   ########.fr       */
+/*   Updated: 2025/08/17 16:04:49 by bfiochi-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,8 @@ typedef enum e_philo_status
 	EATING,
 	SLEEPING,
 	THINKING,
-	TAKE_RIGTH_FORK,
-	TAKE_LEFT_FORK,
+	TAKE_FIRST_FORK,
+	TAKE_SECOND_FORK,
 	DIED,
 }	t_philo_status;
 
@@ -59,20 +59,20 @@ typedef struct s_fork
 {
 	t_mutex	fork;
 	int		fork_id;
-	bool	is_taken;
 }	t_fork;
 
 typedef struct s_philo
-{
+{	long		threads_running_nbr;
+
 	int			id;
 	long		meals;
 	bool		full;
-	long		last_meal_time;
-	t_fork		*left_fork;
-	t_fork		*right_fork;
+	long long	last_meal_time;
+	t_fork		*first_fork;
+	t_fork		*second_fork;
 	pthread_t	thread_id;
 	t_table		*table;
-	t_mutex		mutex;
+	t_mutex		philo_mutex;
 }	t_philo;
 
 typedef struct s_table
@@ -82,7 +82,7 @@ typedef struct s_table
 	long		time_to_eat;
 	long		time_to_sleep;
 	long		number_of_times_each_philosopher_must_eat;
-	long		start_of_dinner;
+	long long	start_of_dinner;
 	bool		end_dinner;
 	bool		threads_ready;
 	long		threads_running_nbr;
@@ -96,7 +96,7 @@ typedef struct s_table
 //utils.c
 int				print_error(const char *error_message);
 char			*str_error_return(const char *error_message);
-long			get_time(t_timecode time_code);
+long long		get_time(t_timecode time_code);
 void			my_usleep(long usec, t_table *table);
 
 //safe_functions.c
@@ -110,9 +110,9 @@ void			init_data(t_table *table);
 
 //mutex_utils.c
 void			set_bool(t_mutex *mutex, bool *dest, bool value);
-void			set_long(t_mutex *mutex, long *dest, long value);
+void			set_long(t_mutex *mutex, long long *dest, long long value);
 bool			get_bool(t_mutex *mutex, bool *value);
-long			get_long(t_mutex *mutex, long *value);
+long long		get_long(t_mutex *mutex, long long *value);
 bool			simulation_finish(t_table *table);
 
 //synchronize.c
@@ -122,7 +122,6 @@ void			increase_long(t_mutex *mutex, long *value);
 void			de_synchronize(t_philo *philo);
 
 //dinner.c
-void			*dinner_simulation(void *data);
 void			init_dinner(t_table *table);
 void			think(t_philo *philo, bool pre_simulation);
 
@@ -132,11 +131,8 @@ int				parse_input(t_table *table, char **argv);
 //write.c
 void			write_philo_status(t_philo_status status, t_philo *philo);
 
-//dinner_utils.c
-void			acess_forks(t_philo *philo);
-
 //monitor.c
-void			*monitor(void *data);
+void			*monitor_dinner(void *data);
 
 //clean.c
 void			clean(t_table *table);
