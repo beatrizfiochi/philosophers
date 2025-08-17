@@ -6,7 +6,7 @@
 /*   By: bfiochi- <bfiochi-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/08 10:40:21 by bfiochi-          #+#    #+#             */
-/*   Updated: 2025/08/17 17:17:35 by bfiochi-         ###   ########.fr       */
+/*   Updated: 2025/08/17 18:06:57 by bfiochi-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,11 @@ static void	*lone_philo(void *arg)
 		get_time());
 	increase_long(&philo->table->table_mutex,
 		&philo->table->threads_running_nbr);
+	handle_mutex(&philo->first_fork->fork, LOCK);
+	write_philo_status(TAKE_FIRST_FORK, philo);
 	while (!simulation_finish(philo->table))
 		usleep(200);
+	handle_mutex(&philo->first_fork->fork, UNLOCK);
 	return (NULL);
 }
 

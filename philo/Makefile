@@ -6,13 +6,13 @@
 #    By: bfiochi- <bfiochi-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/08/07 13:20:35 by bfiochi-          #+#    #+#              #
-#    Updated: 2025/08/08 21:04:05 by bfiochi-         ###   ########.fr        #
+#    Updated: 2025/08/17 18:03:49 by bfiochi-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = philo
 SRCS = main.c utils.c parser.c init.c safe_functions.c dinner.c mutex_utils.c \
-synchronize.c write.c dinner_utils.c monitor.c clean.c
+synchronize.c write.c monitor.c clean.c
 OBJS = $(SRCS:.c=.o)
 CC = cc
 CFLAGS = -Wall -Wextra -Werror -ggdb
