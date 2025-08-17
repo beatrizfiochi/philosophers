@@ -6,7 +6,7 @@
 /*   By: bfiochi- <bfiochi-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/08 10:40:21 by bfiochi-          #+#    #+#             */
-/*   Updated: 2025/08/17 15:57:15 by bfiochi-         ###   ########.fr       */
+/*   Updated: 2025/08/17 17:17:35 by bfiochi-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,11 +39,11 @@ static void	*lone_philo(void *arg)
 	philo = (t_philo *)arg;
 	wait_threads(philo->table);
 	set_long(&philo->philo_mutex, &philo->last_meal_time,
-		get_time(MILLESECOND));
+		get_time());
 	increase_long(&philo->table->table_mutex,
 		&philo->table->threads_running_nbr);
 	while (!simulation_finish(philo->table))
-		my_usleep(200, philo->table);
+		usleep(200);
 	return (NULL);
 }
 
@@ -54,7 +54,7 @@ static void	eat(t_philo *philo)
 	handle_mutex(&philo->second_fork->fork, LOCK);
 	write_philo_status(TAKE_SECOND_FORK, philo);
 	set_long(&philo->philo_mutex, &philo->last_meal_time,
-		get_time(MILLESECOND));
+		get_time());
 	philo->meals++;
 	write_philo_status(EATING, philo);
 	my_usleep(philo->table->time_to_eat, philo->table);
@@ -72,7 +72,6 @@ static void	*dinner_simulation(void *data)
 
 	philo = (t_philo *)data;
 	wait_threads(philo->table);
-	set_long(&philo->philo_mutex, &philo->last_meal_time, get_time(MILLESECOND));
 	increase_long(&philo->table->table_mutex,
 		&philo->table->threads_running_nbr);
 	de_synchronize(philo);
@@ -105,7 +104,10 @@ void	init_dinner(t_table *table)
 				&table->philos[i], CREATE);
 	}
 	handle_thread(&table->monitor, monitor_dinner, table, CREATE);
-	table->start_of_dinner = get_time(MILLESECOND);
+	table->start_of_dinner = get_time();
+	i = -1;
+	while (++i < table->number_of_philosophers)
+		table->philos[i].last_meal_time = table->start_of_dinner;
 	set_bool(&table->table_mutex, &table->threads_ready, true);
 	i = -1;
 	while (++i < table->number_of_philosophers)

@@ -6,7 +6,7 @@
 /*   By: bfiochi- <bfiochi-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/07 14:31:03 by bfiochi-          #+#    #+#             */
-/*   Updated: 2025/08/10 16:49:23 by bfiochi-         ###   ########.fr       */
+/*   Updated: 2025/08/17 17:01:17 by bfiochi-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,14 +81,14 @@ static long	ft_atol(const char *str)
 int	parse_input(t_table *table, char **argv)
 {
 	table->number_of_philosophers = ft_atol(argv[1]);
-	table->time_to_die = (ft_atol(argv[2]) * 1000);
-	table->time_to_eat = (ft_atol(argv[3]) * 1000);
-	table->time_to_sleep = (ft_atol(argv[4]) * 1000);
+	table->time_to_die = (ft_atol(argv[2]));
+	table->time_to_eat = (ft_atol(argv[3]));
+	table->time_to_sleep = (ft_atol(argv[4]));
 	if ((table->number_of_philosophers == 0) || (table->time_to_die == 0)
 		|| (table->time_to_eat == 0) || (table->time_to_sleep == 0))
 		return (1);
-	if ((table->time_to_die < 60000) || (table->time_to_eat < 60000)
-		|| (table->time_to_sleep < 60000))
+	if ((table->time_to_die < 60) || (table->time_to_eat < 60)
+		|| (table->time_to_sleep < 60))
 		printf("Warning: using time < 60ms\n");
 	if (argv[5] != NULL)
 	{

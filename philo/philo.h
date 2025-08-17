@@ -6,7 +6,7 @@
 /*   By: bfiochi- <bfiochi-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/07 13:29:47 by bfiochi-          #+#    #+#             */
-/*   Updated: 2025/08/17 16:04:49 by bfiochi-         ###   ########.fr       */
+/*   Updated: 2025/08/17 16:40:35 by bfiochi-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ typedef struct s_table
 //utils.c
 int				print_error(const char *error_message);
 char			*str_error_return(const char *error_message);
-long long		get_time(t_timecode time_code);
+long long		get_time();
 void			my_usleep(long usec, t_table *table);
 
 //safe_functions.c
