@@ -33,13 +33,6 @@ typedef enum e_philo_status
 	DIED,
 }	t_philo_status;
 
-typedef enum e_timecode
-{
-	SECOND,
-	MILLESECOND,
-	MICROSECOND,
-}	t_timecode;
-
 typedef enum e_opcode
 {
 	INIT,
