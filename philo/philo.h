@@ -6,7 +6,7 @@
 /*   By: bfiochi- <bfiochi-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/07 13:29:47 by bfiochi-          #+#    #+#             */
-/*   Updated: 2025/08/17 16:40:35 by bfiochi-         ###   ########.fr       */
+/*   Updated: 2025/08/17 17:37:43 by bfiochi-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,12 +62,12 @@ typedef struct s_fork
 }	t_fork;
 
 typedef struct s_philo
-{	long		threads_running_nbr;
-
+{
 	int			id;
 	long		meals;
 	bool		full;
 	long long	last_meal_time;
+	long		threads_running_nbr;
 	t_fork		*first_fork;
 	t_fork		*second_fork;
 	pthread_t	thread_id;
@@ -96,7 +96,7 @@ typedef struct s_table
 //utils.c
 int				print_error(const char *error_message);
 char			*str_error_return(const char *error_message);
-long long		get_time();
+long long		get_time(void);
 void			my_usleep(long usec, t_table *table);
 
 //safe_functions.c

@@ -6,7 +6,7 @@
 /*   By: bfiochi- <bfiochi-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/08 20:18:54 by bfiochi-          #+#    #+#             */
-/*   Updated: 2025/08/17 16:49:45 by bfiochi-         ###   ########.fr       */
+/*   Updated: 2025/08/17 17:41:18 by bfiochi-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	*monitor_dinner(void *data)
 	table = (t_table *)data;
 	while (!threads_running(&table->table_mutex, &table->threads_running_nbr,
 			table->number_of_philosophers))
-			usleep(500);
+		usleep(500);
 	while (!simulation_finish(table))
 	{
 		i = -1;
