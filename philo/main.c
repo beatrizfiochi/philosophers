@@ -6,7 +6,7 @@
 /*   By: bfiochi- <bfiochi-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/07 13:29:39 by bfiochi-          #+#    #+#             */
-/*   Updated: 2025/08/17 17:41:03 by bfiochi-         ###   ########.fr       */
+/*   Updated: 2025/08/18 11:11:00 by bfiochi-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	main(int argc, char **argv)
 	else
 	{
 		return (print_error("Invalid input!\n"
-				"Usage: ./philo time_to_die time_to_eat "
+				"Usage: ./philo philo_number time_to_die time_to_eat "
 				"time_to_sleep [meals_number]"));
 	}
 	return (0);

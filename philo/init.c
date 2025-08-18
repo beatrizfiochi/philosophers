@@ -6,7 +6,7 @@
 /*   By: bfiochi- <bfiochi-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/07 16:42:51 by bfiochi-          #+#    #+#             */
-/*   Updated: 2025/08/17 14:15:43 by bfiochi-         ###   ########.fr       */
+/*   Updated: 2025/08/18 11:12:21 by bfiochi-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static void	init_philo(t_table *table)
 		philo->full = false;
 		philo->meals = 0;
 		philo->table = table;
-		handle_mutex(&table->philos->philo_mutex, INIT);
+		handle_mutex(&philo->philo_mutex, INIT);
 		assign_forks(philo, table->forks, i);
 		i++;
 	}
